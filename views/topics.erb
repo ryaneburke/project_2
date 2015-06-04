@@ -1,0 +1,23 @@
+<div id="content">
+	<% @topics.each do |topic| %>
+		<div class="topic">
+			<h3><a href="/topics/<%= topic['id'] %>"><%= topic['title'] %></a><h3>
+			<ul>
+				<li>TIME SINCE POSTED</li>
+				<li>AUTHOR</li>
+			</ul>
+		</div>
+	<% end %>
+</div>
+
+<div id="aside">
+	<h4>NEW TOPIC</h4>
+	<br>
+	<h4>DISPLAY</h4>
+	<ul>
+		<li>TOP VOTED</li>
+		<li>NEWEST FIRST</li>
+		<li>OLDEST FIRST</li>
+		<li>MOST ACTIVE</li>
+	</ul>
+</div>

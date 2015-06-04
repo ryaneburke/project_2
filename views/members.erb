@@ -1,0 +1,16 @@
+<div id="content">
+	<% @members.each do |member| %>
+		<div class="member">
+			<img src="<%= member['img_url']%>">
+			<h3><a href="/members/<%= member['id'] %>"><%= member['username'] %></a><h3>
+			<ul>
+				<li>TIME SINCE POSTED</li>
+				<li>AUTHOR</li>
+			</ul>
+		</div>
+	<% end %>
+</div>
+
+<div id="aside">
+
+</div>

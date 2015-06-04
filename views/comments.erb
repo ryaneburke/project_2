@@ -1,0 +1,18 @@
+<div id="content">
+	<% @comments.each do |comment| %>
+		<div class="comment">
+			<h3><a href="/topics/<%= comment['topic_id'] %>">TOPIC TITLE, NEED JOIN</a><h3>
+			<p>
+				<%= comment['body'] %>
+			<p>
+			<ul>
+				<li>TIME SINCE POSTED</li>
+				<li>AUTHOR</li>
+			</ul>
+		</div>
+	<% end %>
+</div>
+
+<div id="aside">
+
+</div>

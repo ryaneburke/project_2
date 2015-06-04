@@ -6,10 +6,11 @@ CREATE TABLE members (
 	id SERIAL PRIMARY KEY,
 	name VARCHAR NOT NULL,
 	username VARCHAR NOT NULL,
+	password VARCHAR NOT NULL,
 	email VARCHAR NOT NULL,
 	join_date TIMESTAMP NOT NULL,
-	img_url VARCHAR NOT NULL,
-	location VARCHAR NOT NULL,
+	img_url VARCHAR DEFAULT 'http://i.kinja-img.com/gawker-media/image/upload/s--fFAX6P5D--/cqqxy9jeimvz4hvhrayx.jpg',
+	location VARCHAR,
 	type VARCHAR NOT NULL DEFAULT 'Newbie' 
 );
 

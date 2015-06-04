@@ -1,0 +1,42 @@
+<div id="content">
+	<div id="topic-view">
+		<h3><a href="/topics/<%= @topic['id'] %>"><%= @topic['title'] %></a><h3>
+		<ul>
+			<li>TIME SINCE POSTED</li>
+			<li>TOPIC AUTHOR</li>
+		</ul>
+		<br>
+
+		<ul>
+			<li><%= @topic['id'] %></li>
+			<li><%= currentuser_id %></li>
+		</ul>
+
+		<form action='/comments' method='POST'>
+			<input type='textarea' name='body'>
+			<input type='hidden' name='topic_id' value="<%= @topic['id'] %>">
+<!-- 			<input type='hidden' name='member_id' value='<%= currentuser_id %>'> -->
+			<input type='submit' value='comment'>
+		</form>
+		<br>
+
+		<% @comments.each do |comment| %>
+			<div class="comment">
+				<img src="<%= comment['avatar'] %>">
+				<%= comment['author'] %>
+				<%= comment['body'] %>
+				<%= comment['created_at'] %>
+			</div>
+		<% end %>
+	</div>
+</div>
+
+<div id="aside">
+	<h4>NEW COMMENT</h4>
+	<h4>DISPLAY</h4>
+	<ul>
+		<li>NEWEST FIRST</li>
+		<li>OLDEST FIRST</li>
+		<li>TOP COMMENTERS</li>
+	</ul>
+</div>

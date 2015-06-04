@@ -9,9 +9,16 @@
 	<script src="/js/main.js"></script>
 </head>
 <body>
+
 	<header>
-		FORUM HEADER
+		<h2>FORUM LOGO</h2>
+		<% if logged_in? %>
+			<p><%= currentuser_username %></p>
+		<% else %>
+			<p>You are not logged in</p>
+		<% end %> 
 	</header>
+
 	<nav>
 		<ul>
 			<li><a href='/'>Home</a></li>
@@ -24,7 +31,6 @@
 	<div id="main">
 		<%= yield %>
 	</div>
-
 	
 </body>
 </html>
