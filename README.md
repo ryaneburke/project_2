@@ -8,4 +8,6 @@ This project is a forum template build
 
 Ruby, Sinatra, JS, jQuery, HTML, CSS
 
+##Project Tracker
+
 [Trello workflow](https://trello.com/b/hnLKeoVs/project-2-forum)
