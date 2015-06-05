@@ -3,6 +3,9 @@ require "sinatra/reloader"
 require "pry"
 
 require_relative "db/connection"
+require_relative "models/comment"
+require_relative "models/member"
+require_relative "models/topic"
 
 module Forum
 	class Server < Sinatra::Base 
@@ -37,11 +40,9 @@ module Forum
 
 		#LOGIN
 		post '/members/login' do
-			binding.pry
 			@member = $db.exec_params("SELECT * FROM members WHERE username = $1 AND password = $2", [params[:username], params[:password]])
 			member_id = @member.first['id']
 			username = @member.first['username']
-			binding.pry
 			if member_id.nil?
 				@message = "Invalid Login. Please check your input and try again."
 				erb :welcome
@@ -107,10 +108,8 @@ module Forum
 			body = @params[:body]
 			topic_id = @params[:topic_id]
 			member_id = currentuser_id
-			binding.pry
 			query = "INSERT INTO comments (body, topic_id, member_id, created_at) VALUES ($1, $2, $3, CURRENT_TIMESTAMP)"
 			$db.exec_params(query, [body, topic_id, member_id])
-			binding.pry
 			redirect '/topics/#{topic_id}'
 		end
 
