@@ -1,4 +1,10 @@
 <div id="content">
+
+	<form action="/topics" method="POST">
+		<input type="text" name="title">
+		<input type="submit" name="submit">
+	</form>
+
 	<% @topics.each do |topic| %>
 		<div class="topic">
 			<h3><a href="/topics/<%= topic['id'] %>"><%= topic['title'] %></a><h3>

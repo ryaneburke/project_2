@@ -10,6 +10,8 @@ require_relative "models/topic"
 module Forum
 	class Server < Sinatra::Base 
 
+		# MARKDOWN
+
 		configure do
 			register Sinatra::Reloader
 			set :sessions, true
@@ -34,50 +36,48 @@ module Forum
 
 #MEMBERS
 		get '/members' do
-			@members = $db.exec("SELECT * FROM members")
+			@members = Member.all
 			erb :members
 		end
 
-		#LOGIN
-		post '/members/login' do
-			@member = $db.exec_params("SELECT * FROM members WHERE username = $1 AND password = $2", [params[:username], params[:password]])
-			member_id = @member.first['id']
-			username = @member.first['username']
-			if member_id.nil?
-				@message = "Invalid Login. Please check your input and try again."
-				erb :welcome
-			else
-				session[:username] = username
-				session[:id] = member_id
-				redirect '/topics'
-			end
-		end
-
-		#CREATE MEMBER
+		#NEW MEMBER
 		post '/members' do
 			password = params[:password]
 			verification = params[:verification]
 			if password != verification
 				@message = "Passwords did not match. Please register again."
-				redirect '/' 
+				erb :welcome 
 			else
-				# check = $db.exec_params("SELECT * FROM members WHERE username = $1", [params[:username]]).first
-				# if check.nil?
-				# 	@message = "Username already exists. Please try another."
-				# 	redirect '/'
-				# else
-					query = "INSERT INTO members (name, username, password, email, join_date) VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP) RETURNING id"
-					id = $db.exec_params(query, [params[:name], params[:username], params[:password], params[:email]])
-					redirect "/members/#{id.first['id']}"
-				# end
+				if !Member.username_unique?(params[:username])
+					@message = "Username already exists. Please try another."
+					erb :welcome
+				else
+					newmember = Member.add(params)
+					redirect "/members/#{newmember.id}"
+				end
 			end
 		end
 
+		#LOGIN
+		post '/members/login' do
+			member = Member.login(params)
+			if member
+				session[:username] = member.username
+				session[:id] = member.id
+				redirect '/topics'
+			else
+				@message = "Invalid Login. Please check your input and try again."
+				erb :welcome
+			end
+		end
+
+
 		#PROFILE PAGE
 		get '/members/:id' do
-			binding.pry
-			query = "SELECT * FROM members WHERE id = $1"
-			@member = $db.exec_params(query, [params[:id]]).first
+			@member = Member.find('id', params[:id])
+			@topics = Topic.find('member_id', @member.id)
+			@
+
 			erb :profile
 		end
 
@@ -96,6 +96,15 @@ module Forum
 			erb :topic
 		end
 
+		#NEW TOPIC
+		post '/topics' do
+			title = @params[:title]
+			@params[:member_id] = currentuser_id
+			query = "INSERT INTO comments (title, member_id, created_at) VALUES ($1, $2, CURRENT_TIMESTAMP) RETURNING id"
+			id = $db.exec_params(query, [title, member_id])
+			redirect "/topics/#{id.first['id']}"
+		end
+
 #COMMENTS
 		#SHOW ALL COMMENTS
 		get '/comments' do
@@ -103,7 +112,7 @@ module Forum
 			erb :comments
 		end
 
-		#POST COMMENT, IN REFERENCE TO CURRENT TOPIC
+		#NEW COMMENT, IN REFERENCE TO CURRENT TOPIC
 		post '/comments' do
 			body = @params[:body]
 			topic_id = @params[:topic_id]
@@ -112,7 +121,6 @@ module Forum
 			$db.exec_params(query, [body, topic_id, member_id])
 			redirect '/topics/#{topic_id}'
 		end
-
 
 	end#Server
 end#Forum

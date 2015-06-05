@@ -12,14 +12,19 @@ class Topic
 		@ranking = attrs['ranking']
 	end
 
-	def self.all
-		results = $db.exec("SELECT * FROM topics").entries.map! do |topic|
+	def Topic.all(order_by: :id)
+		results = $db.exec_params("SELECT * FROM topics ORDER BY $1", [order_by]).map do |topic|
 			Topic.new(topic)
 		end
 	end
 
-	def self.find(id)
-		result = $db.exec_params("SELECT * FROM topics WHERE id = $1", [id]).first
+	def Topic.add(params)
+		id = $db.exec_params("INSERT INTO topics (member_id, title, created_at) VALUES ($1, $2, CURRENT_TIMESTAMP) RETURNING id", [params[:member_id], params[:title]])
+		newmember = Member.find('id', id.first['id'])
+	end
+
+	def Topic.find(key, val)
+		result = $db.exec_params("SELECT * FROM topics WHERE #{key} = $1", [val]).first
 		Topic.new(result)
 	end
 
@@ -44,7 +49,5 @@ class Topic
 
 	def delete
 	end
-	
-end
 
 end#Topic

@@ -20,7 +20,7 @@ class Comment
 
 	def self.find(id)
 		result = $db.exec_params("SELECT * FROM comments WHERE id = $1", [id]).first
-		Comment.new(result)
+		Comment.new(results)
 	end
 
 	# def self.group_by(var)
