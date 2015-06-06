@@ -4,7 +4,9 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Forum</title>
-	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/normalize.css">
+	<link rel="stylesheet" href="/css/layout.css">
+	<link rel="stylesheet" href='/css/topics.css'>
 	<script src="/js/jquery-2.1.4.js"></script>
 	<script src="/js/main.js"></script>
 </head>
@@ -12,19 +14,14 @@
 
 	<header>
 		<h2>FORUM LOGO</h2>
-		<% if logged_in? %>
-			<p>Logged in as: <%= currentuser_username %></p>
-		<% else %>
-			<p>You are not logged in</p>
-		<% end %> 
 	</header>
 
 	<nav>
-		<ul>
-			<li><a href='/'>Home</a></li>
-			<li><a href='/topics'>Topics</a></li>
-			<li><a href='/comments'>Comments</a></li>
-			<li><a href='/members'>Members</a></li>
+		<ul class='nav_ul'>
+			<li class='nav_li'><a href='/'>Home</a></li>
+			<li class='nav_li'><a href='/topics'>Topics</a></li>
+			<li class='nav_li'><a href='/comments'>Comments</a></li>
+			<li class='nav_li'><a href='/members'>Members</a></li>
 		</ul>
 	</nav>
 

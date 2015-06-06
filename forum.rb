@@ -74,10 +74,13 @@ module Forum
 
 		#PROFILE PAGE
 		get '/members/:id' do
-			@member = Member.find('id', params[:id])
-			@topics = Topic.find('member_id', @member.id)
-			@
-
+			@member = Member.find(params[:id])
+			binding.pry
+			@attributes = {target: 'member_id', member_id: @member_id}
+			binding.pry
+			@topics = Topic.find_matches(@attributes)
+			binding.pry
+			@comments = Comment.find_matches(@attributes)
 			erb :profile
 		end
 

@@ -1,0 +1,31 @@
+#login_status {
+	background-color: red;
+}
+
+.login_signup {
+	margin-top: -20px;
+	margin-left: 4px;
+}
+
+.cta {
+	text-align: center;
+}
+
+#content {
+	position: absolute;
+	left: 0px;
+	width: 85%;
+	background-color: grey;
+}
+
+#floating_div {
+	visibility: hidden;
+	z-index: 10;
+	margin: 10px 0 0 20px;
+}
+
+#input_title {
+	margin: 0 auto;
+	width: 300px;
+}
+

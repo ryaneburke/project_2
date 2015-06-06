@@ -13,4 +13,22 @@
 			<li>Location: <%= @member.location %></li>
 		</ul>
 	</div>
+
+	<% @topics.each do |topic| %>
+		<div class="profile_topics">
+			<a href="topics/<%= topic.id %>"><%= topic.title %></a>
+			<p><%= topic.created_at %></p>
+		</div>
+	<% end %>
+
+	<% @comments.each do |comment| %>
+		<div class="profile_comments">
+			<p>
+				<a href="topics/<%= comment.topic_id %>">
+					<%= comment.body %>	
+				</a>
+			</p>
+			<p><%= comment.created_at %></p>
+		</div>
+	<% end %>
 </div>

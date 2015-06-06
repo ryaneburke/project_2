@@ -1,4 +1,5 @@
 # require_relative "../db/connection"
+require 'pry'
 
 class Member
 	attr_reader :id 
@@ -26,8 +27,8 @@ class Member
 		newmember = Member.find('id', id.first['id'])
 	end
 
-	def Member.find(key, val)
-		result = $db.exec_params("SELECT * FROM members WHERE #{key} = $1", [val]).first
+	def Member.find(id)
+		result = $db.exec_params("SELECT * FROM members WHERE id = $1", [id]).first
 		Member.new(result)
 	end
 
@@ -41,6 +42,13 @@ class Member
 	def Member.login(params)
 		member = $db.exec_params("SELECT * FROM members WHERE username = $1 AND password = $2", [params[:username], params[:password]]).first
 		Member.new(member)
+	end
+
+	def Member.find_match(id)
+		binding.pry
+		results = $db.exec_params("SELECT * FROM members WHERE id = $1", [id]).map do |member|
+			Member.new(member)
+		end
 	end
 
 	# def update(changes={})

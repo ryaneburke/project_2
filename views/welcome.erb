@@ -1,20 +1,32 @@
-<h1>Welcome to The Forum</h1>
+<aside>
+	<div id='aside_wrap'>
+		<% if logged_in? %>
+			<p id='login_status'>
+				Logged in as: <%= currentuser_username %>
+			</p>
+		<% else %>
+			<p id='login_status'>
+				You are not logged in
+			</p>
+		<% end %> 
 
-<p><%= @message %></p>
+		<p id='member_alert'><%= @message %></p>
 
-<h2>Log-In</h2>
-<form action='/members/login' method='POST'>
-	<input type='text' name='username' placeholder='username'><br>
-	<input type='text' name='password' placeholder='password'><br>
-	<input type='submit' value='log-in'>
-</form>
+		<h2 class='cta'>Log-In</h2>
+		<form class='login_signup' action='/members/login' method='POST'>
+			<input type='text' name='username' placeholder='username'><br>
+			<input type='text' name='password' placeholder='password'><br>
+			<input type='submit' value='log-in'>
+		</form>
 
-<h2>Sign-Up</h2>
-<form action='/members' method='POST'>
-	<input type='text' name='name' placeholder='given name'><br>
-	<input type='text' name='email' placeholder='email'><br>
-	<input type='text' name='username' placeholder='desired username'><br>
-	<input type='password' name='password' placeholder='password'></br>
-	<input type='password' name='verification' placeholder='repeat password'></br>
-	<input type='submit' value='sign-up'>
-</form>
+		<h2 class='cta'>Sign-Up</h2>
+		<form class='login_signup'  action='/members' method='POST'>
+			<input type='text' name='name' placeholder='given name'><br>
+			<input type='text' name='email' placeholder='email'><br>
+			<input type='text' name='username' placeholder='desired username'><br>
+			<input type='password' name='password' placeholder='password'></br>
+			<input type='password' name='verification' placeholder='repeat password'></br>
+			<input type='submit' value='sign-up'>
+		</form>
+	</div>
+<aside>

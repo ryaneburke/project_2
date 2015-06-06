@@ -20,7 +20,7 @@ class Topic
 
 	def Topic.add(params)
 		id = $db.exec_params("INSERT INTO topics (member_id, title, created_at) VALUES ($1, $2, CURRENT_TIMESTAMP) RETURNING id", [params[:member_id], params[:title]])
-		newmember = Member.find('id', id.first['id'])
+		newtopic = Topic.find('id', id.first['id'])
 	end
 
 	def Topic.find(key, val)
@@ -28,23 +28,13 @@ class Topic
 		Topic.new(result)
 	end
 
-	# def self.group_by(var)
-	# 	case var
-	# 	when
-	# 	when
-	# 	else
-	# 	end
-	# end
-
-	def upvote
-		@ranking += 1
+	def Topic.find_matches(attrs={})
+		results = $db.exec_params("SELECT * FROM comments WHERE $1 = $2", [attributes[:target], attributes[:member_id]]).map do |comment|
+			Comment.new(comment)
+		end
 	end
 
-	def downvote
-		@ranking -= 1
-	end
-
-	def edit
+	def update
 	end
 
 	def delete
