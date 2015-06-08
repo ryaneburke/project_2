@@ -118,9 +118,9 @@ module Forum
 		get '/topics/:id' do
 			@topic = Topic.single_topic(params)
 			@comments = Comment.single_topic(params)
-			# @comments.map do |comment|
-			# 	comment.render_location
-			# end
+			@comments.map do |comment|
+				comment.render_location
+			end
 			if logged_in?
 				erb :in_topic
 			else
@@ -139,7 +139,7 @@ module Forum
 		get '/comments' do
 			@comments = Comment.all
 			@comments.map do |comment|
-				# comment.render_location
+				comment.render_location
 				comment.get_topic_title
 			end
 			if logged_in?
