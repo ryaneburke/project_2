@@ -1,34 +1,17 @@
-<div class="profile">
+<link rel="stylesheet" href="/css/profile.css">
+
+<div id="content">
 	<div class="profile_data">
 		<h2><%= @member.username %></h2>
 		<img class="profile_avatar" src="<%= @member.img_url %>">
 		<ul class="profile_forum_data">
 			<li>Member#: <%= @member.id %></li>
 			<li>Member Since: <%= @member.join_date %></li>
-			<li>Rank: <%= @member.status %></li>
+			<li>Status: <%= @member.status %></li>
 		</ul>
 		<ul class="profile_real_data">
 			<li>Name: <%= @member.name %></li>
 			<li>Email: <%= @member.email %></li>
-			<li>Location: <%= @member.location %></li>
 		</ul>
 	</div>
-
-	<% @topics.each do |topic| %>
-		<div class="profile_topics">
-			<a href="topics/<%= topic.id %>"><%= topic.title %></a>
-			<p><%= topic.created_at %></p>
-		</div>
-	<% end %>
-
-	<% @comments.each do |comment| %>
-		<div class="profile_comments">
-			<p>
-				<a href="topics/<%= comment.topic_id %>">
-					<%= comment.body %>	
-				</a>
-			</p>
-			<p><%= comment.created_at %></p>
-		</div>
-	<% end %>
 </div>

@@ -3,7 +3,7 @@ require 'pry'
 
 class Member
 	attr_reader :id 
-	attr_accessor :name, :username, :email, :join_date, :location, :status, :img_url, :status
+	attr_accessor :name, :username, :email, :join_date, :status, :img_url, :status
 
 	def initialize(attrs={})
 		@id = attrs['id']
@@ -12,7 +12,6 @@ class Member
 		@email = attrs['email']
 		@join_date = attrs['join_date']
 		@img_url = attrs['img_url']
-		@location = attrs['location']
 		@status = attrs['status']
 	end
 
@@ -45,7 +44,6 @@ class Member
 	end
 
 	def Member.find_match(id)
-		binding.pry
 		results = $db.exec_params("SELECT * FROM members WHERE id = $1", [id]).map do |member|
 			Member.new(member)
 		end

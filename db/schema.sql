@@ -10,8 +10,7 @@ CREATE TABLE members (
 	email VARCHAR NOT NULL,
 	join_date TIMESTAMP NOT NULL,
 	img_url VARCHAR DEFAULT 'http://i.kinja-img.com/gawker-media/image/upload/s--fFAX6P5D--/cqqxy9jeimvz4hvhrayx.jpg',
-	location VARCHAR,
-	type VARCHAR NOT NULL DEFAULT 'Newbie' 
+	status VARCHAR NOT NULL DEFAULT 'Newbie' 
 );
 
 CREATE TABLE topics (
@@ -19,7 +18,8 @@ CREATE TABLE topics (
 	title VARCHAR NOT NULL,
 	member_id INTEGER NOT NULL REFERENCES members(id),
 	created_at TIMESTAMP NOT NULL,
-	ranking INTEGER DEFAULT 0
+	ranking INTEGER DEFAULT 0,
+	ip VARCHAR
 );
 
 CREATE TABLE comments (
@@ -27,5 +27,6 @@ CREATE TABLE comments (
 	topic_id INTEGER NOT NULL REFERENCES topics(id),
 	member_id INTEGER NOT NULL REFERENCES members(id),
 	created_at TIMESTAMP NOT NULL,
-	body TEXT NOT NULL
+	body TEXT NOT NULL,
+	ip VARCHAR
 );

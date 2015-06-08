@@ -1,18 +1,54 @@
+<link rel="stylesheet" href='/css/comments.css'>
+
 <div id="content">
+
 	<% @comments.each do |comment| %>
-		<div class="comment">
-			<h3><a href="/topics/<%= comment['topic_id'] %>">TOPIC TITLE, NEED JOIN</a><h3>
-			<p>
-				<%= comment['body'] %>
-			<p>
-			<ul>
-				<li>TIME SINCE POSTED</li>
-				<li>AUTHOR</li>
+
+	<div class="comment">
+		<h2><a href="/topics/<%= comment.topic_id %>"><%= comment.topic_title %></a></h2>
+		<div class="comment_member_data">
+			<h4 class="comment_username"><%= comment.author %></h4>
+			<img class="comment_avatar" src="<%= comment.avatar %>">
+			<ul class="comment_id_type_loc">
+				<li>Member#: <%= comment.member_id %></li>
+				<li>Status: <%= comment.member_status %></li>
+				<li>Location: <%= comment.location %></li>
 			</ul>
 		</div>
+		<div class="comment_wrapper">
+			<h4 class="comment_data"><%= comment.created_at %></h4>
+			<p class="comment_body">
+			<%= MARKDOWN.render(comment.body) %>
+			</p>
+		</div>
+	</div>
+
 	<% end %>
 </div>
 
-<div id="aside">
+<aside>
+	<div id='aside_wrap'>
+			<p id='login_status'>
+				You are not logged in
+			</p>
+			
+		<p id='member_alert'><%= @message %></p>
 
-</div>
+		<h2 class='cta'>Log-In</h2>
+		<form class='login_signup' action='/members/login' method='POST'>
+			<input type='text' name='username' placeholder='username'><br>
+			<input type='text' name='password' placeholder='password'><br>
+			<input type='submit' value='log-in'>
+		</form>
+
+		<h2 class='cta'>Sign-Up</h2>
+		<form class='login_signup'  action='/members' method='POST'>
+			<input type='text' name='name' placeholder='given name'><br>
+			<input type='text' name='email' placeholder='email'><br>
+			<input type='text' name='username' placeholder='desired username'><br>
+			<input type='password' name='password' placeholder='password'></br>
+			<input type='password' name='verification' placeholder='repeat password'></br>
+			<input type='submit' value='sign-up'>
+		</form>
+	</div>
+<aside>

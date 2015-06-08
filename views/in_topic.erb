@@ -6,6 +6,15 @@
 		</p>
 	</div>
 
+	<form action='/comments' method='POST'>
+		<input type='textarea' name='body'>
+		<input type='hidden' name='topic_id' value="<%= @topic.id %>">
+		<input type='hidden' name='ip' value="<%= request.ip %>">
+		<input type='hidden' name='author' value="<%= currentuser_username %>">
+		<input type='hidden' name='member_id' value="<%= currentuser_id %>">
+		<input type='submit' value='comment'>
+	</form>
+
 	<% @comments.each do |comment| %>
 
 		<div class="comment">

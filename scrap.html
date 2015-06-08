@@ -1,4 +1,4 @@
-<!-- SINGLE TOPIC VIEW -->
+SINGLE TOPIC VIEW -->
 
 <div class="topic">
 	<div class="topic_title_wrapper">
@@ -49,9 +49,31 @@
 			<li>Location: <%= member['location'] %></li>
 		</ul>
 	</div>
+<!--need to finish this code -->
 	<ul class="profile_topics">
-		<% @member.topics.each do |topic|
+		<% @member.topics.each do |topic| %>
 	</ul>
 	<ul class="profile_posts">
 	</ul>	
 </div>
+
+
+<!-- 
+	<% @topics.each do |topic| %>
+		<div class="profile_topics">
+			<a href="topics/<%= topic.id %>"><%= topic.title %></a>
+			<p><%= topic.created_at %></p>
+		</div>
+	<% end %>
+
+
+	<% @comments.each do |comment| %>
+		<div class="profile_comments">
+			<p>
+				<a href="topics/<%= comment.topic_id %>">
+					<%= comment.body %>	
+				</a>
+			</p>
+			<p><%= comment.created_at %></p>
+		</div>
+	<% end %>

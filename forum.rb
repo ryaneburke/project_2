@@ -1,6 +1,9 @@
 require "sinatra/base"
 require "sinatra/reloader"
 require "pry"
+require "redcarpet"
+require "net/http"
+require "json"
 
 require_relative "db/connection"
 require_relative "models/comment"
@@ -10,7 +13,7 @@ require_relative "models/topic"
 module Forum
 	class Server < Sinatra::Base 
 
-		# MARKDOWN
+		MARKDOWN = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true)
 
 		configure do
 			register Sinatra::Reloader
@@ -26,18 +29,26 @@ module Forum
 		end
 
 		def logged_in?
-			@currentuser_id.nil?
+			!currentuser_id.nil?
 		end
 
 #WELCOME
 		get '/' do
-			erb :welcome
+			if logged_in?
+				redirect '/topics'
+			else
+				erb :welcome
+			end
 		end
 
 #MEMBERS
 		get '/members' do
 			@members = Member.all
-			erb :members
+			if logged_in?
+				erb :in_members
+			else
+				erb :members
+			end
 		end
 
 		#NEW MEMBER
@@ -71,16 +82,17 @@ module Forum
 			end
 		end
 
+		#LOGOUT
+		delete '/logout' do
+      session[:user_id] = nil
+      session[:username] = nil
+      redirect '/'
+    end
+
 
 		#PROFILE PAGE
 		get '/members/:id' do
 			@member = Member.find(params[:id])
-			binding.pry
-			@attributes = {target: 'member_id', member_id: @member_id}
-			binding.pry
-			@topics = Topic.find_matches(@attributes)
-			binding.pry
-			@comments = Comment.find_matches(@attributes)
 			erb :profile
 		end
 
@@ -88,42 +100,70 @@ module Forum
 #TOPICS
 		#SHOW ALL TOPICS
 		get '/topics' do
-			@topics = $db.exec("SELECT * FROM topics")
-			erb :topics
+			@topics = Topic.all
+			@topics.map do |topic|
+				topic.get_author
+			end
+			if logged_in?
+				erb :in_topics
+			else	
+				erb :topics
+			end
 		end
 
 		#TOPIC PAGE WITH ALL COMMENTS
 		get '/topics/:id' do
-			@topic = $db.exec_params("SELECT topics.* FROM topics WHERE id = $1", [params[:id]]).first
-			@comments = $db.exec_params("SELECT comments.*, members.username AS author, members.img_url AS avatar FROM comments JOIN members ON members.id = comments.member_id WHERE comments.topic_id = $1", [params[:id]])
-			erb :topic
+			@topic = Topic.single_topic(params)
+			@comments = Comment.single_topic(params)
+			@comments.map do |comment|
+				comment.render_location
+			end
+			if logged_in?
+				erb :in_topic
+			else
+				erb :topic
+			end
 		end
 
 		#NEW TOPIC
 		post '/topics' do
-			title = @params[:title]
-			@params[:member_id] = currentuser_id
-			query = "INSERT INTO comments (title, member_id, created_at) VALUES ($1, $2, CURRENT_TIMESTAMP) RETURNING id"
-			id = $db.exec_params(query, [title, member_id])
-			redirect "/topics/#{id.first['id']}"
+			newtopic = Topic.add(params)
+			redirect "/topics/#{newtopic.id}"
 		end
 
 #COMMENTS
 		#SHOW ALL COMMENTS
 		get '/comments' do
-			@comments = $db.exec("SELECT * FROM comments")
-			erb :comments
+			@comments = Comment.all
+			@comments.map do |comment|
+				comment.render_location
+				comment.get_topic_title
+			end
+			if logged_in?
+				erb :in_comments
+			else	
+				erb :comments
+			end
 		end
 
 		#NEW COMMENT, IN REFERENCE TO CURRENT TOPIC
 		post '/comments' do
-			body = @params[:body]
-			topic_id = @params[:topic_id]
-			member_id = currentuser_id
-			query = "INSERT INTO comments (body, topic_id, member_id, created_at) VALUES ($1, $2, $3, CURRENT_TIMESTAMP)"
-			$db.exec_params(query, [body, topic_id, member_id])
-			redirect '/topics/#{topic_id}'
+			newcomment = Comment.add(params)
+			redirect "/topics/#{newcomment.topic_id}"
 		end
+
+		#UPDATE COMMENT
+		post '/updatecomment' do
+			edited = Comment.edit(params)
+			redirect '/topics/#{edited.topic_id}'
+		end
+
+		#DELETE COMMENT
+		delete '/xcomment' do
+      session[:user_id] = nil
+      session[:username] = nil
+      redirect '/'
+    end
 
 	end#Server
 end#Forum

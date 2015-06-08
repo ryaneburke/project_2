@@ -1,4 +1,4 @@
-.topic {
+/*.comment {
 	width: 700px;
 	height: 60px;
 	margin: 15px auto;
@@ -16,5 +16,12 @@
 	list-style-type: none;
 	display: inline;
 	font-size: 12px;
+}*/
+
+.display_nav {
+	text-align: center;
 }
 
+#delete_comment {
+	text-align: center;
+}

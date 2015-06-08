@@ -1,12 +1,41 @@
-<link rel="stylesheet" type="text/css" href="css/welcome.css">
+<link rel="stylesheet" href='/css/topics.css'>
 
 <div id="content">
 
-	<h1> Welcome to the Forum </h1>
-	<p>
-		Browsing is open to the public. Posting is restricting to members only. Please log-in or sign-up to post.
-	</p>
+	<br>
+	<form id="new_topic_form"="/topics" method="POST">
+		<input class="input" type="text" name="title" placeholder="New Topic...">
+		<input type="hidden" name="member_id" value="<%= currentuser_id %>">
+		<input type="hidden" name="ip" value="<%= request.ip %>">
+		<input type="submit" name="submit">
+	</form>
+
+	<% @topics.each do |topic| %>
+		<div class="topic">
+			<h3 class="topic_title">
+				<a href="/topics/<%= topic.id %>"><%= topic.title %></a>
+			</h3>
+			<ul>
+				<li class="topic_data"> <%= topic.created_at %> </li>
+				<li class="topic_data"> by <a href="/members/<%= topic.member_id %>"><%= topic.author %></a></li>
+			</ul>
+		</div>
+		
+	<% end %>
+	
 </div>
+
+<!-- <div id="aside">
+	<h4>NEW TOPIC</h4>
+	<br>
+	<h4>DISPLAY</h4>
+	<ul>
+		<li>TOP VOTED</li>
+		<li>NEWEST FIRST</li>
+		<li>OLDEST FIRST</li>
+		<li>MOST ACTIVE</li>
+	</ul>
+</div> -->
 
 <aside>
 	<div id='aside_wrap'>
@@ -14,6 +43,10 @@
 			<p id='login_status'>
 				Logged in as: <%= currentuser_username %>
 			</p>
+			<form method="POST" action="/logout">
+      	<input type="hidden" name="_method" value="DELETE">
+      	<input type="submit" value="Logout">
+    	</form>
 		<% else %>
 			<p id='login_status'>
 				You are not logged in

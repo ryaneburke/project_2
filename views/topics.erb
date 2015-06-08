@@ -1,21 +1,20 @@
-<div id="floating_div">
-		<form id="new_topic_form"="/topics" method="POST">
-			<input id="input_title" type="text" name="title">
-			<input type="submit" name="submit">
-		</form>
-</div>
+<link rel="stylesheet" href='/css/topics.css'>
 
 <div id="content">
 
 	<% @topics.each do |topic| %>
 		<div class="topic">
-			<h3><a href="/topics/<%= topic['id'] %>"><%= topic['title'] %></a><h3>
+			<h3 class="topic_title">
+				<a href="/topics/<%= topic.id %>"><%= topic.title %></a>
+			</h3>
 			<ul>
-				<li>TIME SINCE POSTED</li>
-				<li>AUTHOR</li>
+				<li class="topic_data"> <%= topic.created_at %> </li>
+				<li class="topic_data"> by <a href="/members/<%= topic.member_id %>"><%= topic.author %></a></li>
 			</ul>
 		</div>
+		
 	<% end %>
+	
 </div>
 
 <!-- <div id="aside">
@@ -36,6 +35,10 @@
 			<p id='login_status'>
 				Logged in as: <%= currentuser_username %>
 			</p>
+			<form method="POST" action="/logout">
+      	<input type="hidden" name="_method" value="DELETE">
+      	<input type="submit" value="Logout">
+    	</form>
 		<% else %>
 			<p id='login_status'>
 				You are not logged in
