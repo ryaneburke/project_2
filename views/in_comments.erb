@@ -3,38 +3,32 @@
 <div id="content">
 
 	<% @comments.each do |comment| %>
-
 	<div class="comment">
-		<h2><a href="/topics/<%= comment.topic_id %>"><%= comment.topic_title %></a></h2>
-		<div class="comment_member_data">
-			<h4 class="comment_username"><%= comment.author %></h4>
-			<img class="comment_avatar" src="<%= comment.avatar %>">
-			<ul class="comment_id_type_loc">
-				<li>Member#: <%= comment.member_id %></li>
-				<li>Status: <%= comment.member_status %></li>
-				<li>Location: <%= comment.location %></li>
-			</ul>
+		<div class="topic">
+			<h3 class="topic_title">
+				<a href="/topics/<%= comment.topic_id %>"><%= comment.topic_title %></a>
+			</h3>
 		</div>
 		<div class="comment_wrapper">
-			<h4 class="comment_data"><%= comment.created_at %></h4>
-
+			<p class="comment_body">
+			<%= MARKDOWN.render(comment.body) %>
+			</p>
 			<!-- 	<form method="POST" action="/updatecomment">
 					<input type="textarea" name="body" value="<%= comment.body %>">
 					<input type="hidden" name="id" value="<%= comment.id %>">
 					<input type="submit" value="edit">
 				</form> -->
-			
-				<form id="delete_comment" method="POST" action="/xcomment">
-      		<input type="hidden" name="_method" value="DELETE">
-      		<input type="submit" value="delete">
-    		</form>
-			
-			<p class="comment_body">
-			<%= MARKDOWN.render(comment.body) %>
-			</p>
 		</div>
+			<p class="comment_data">
+				<%= comment.created_at %> by <%= comment.author %> from <%= comment.location %>
+			<p>
+			<form id="delete_comment" method="POST" action="/xcomment">
+			<input type="hidden" name="_method" value="DELETE">
+			<input type="hidden" name="comment_id" value="<%= comment.id %>">
+			<input type="hidden" name="topic_id" value="<%= comment.topic_id %>">
+			<input type="submit" value="delete">
+  		</form>		
 	</div>
-
 	<% end %>
 </div>
 
@@ -44,11 +38,16 @@
 			Logged in as: <%= currentuser_username %>
 		</p>
 
-		<h2 class='cta'>DISPLAY BY:</h2>
-			<form class='display_nav' action='/members/login' method='POST'>
-			<input type='submit' name='newest' value='NEWEST'><br>
-			<input type='submit' name='oldest' value='OLDEST'><br>
-			<input type='submit' name='active' value='ACTIVE'>
+		<form id="logout" method="POST" action="/logout">
+      <input type="hidden" name="_method" value="DELETE">
+      <input type="submit" value="Logout">
+    </form>
+
+		<h2 class='cta'>Display By:</h2>
+		<form class='display_nav' action='/members/login' method='POST'>
+			<input type='submit' name='newest' value='NEWEST FIRST'><br>
+			<input type='submit' name='oldest' value='OLDEST FIRST'><br>
+			<input type='submit' name='active' value='MOST ACTIVE'>
 		</form>
 
 	</div>

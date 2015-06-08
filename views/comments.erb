@@ -3,26 +3,20 @@
 <div id="content">
 
 	<% @comments.each do |comment| %>
-
 	<div class="comment">
-		<h2><a href="/topics/<%= comment.topic_id %>"><%= comment.topic_title %></a></h2>
-		<div class="comment_member_data">
-			<h4 class="comment_username"><%= comment.author %></h4>
-			<img class="comment_avatar" src="<%= comment.avatar %>">
-			<ul class="comment_id_type_loc">
-				<li>Member#: <%= comment.member_id %></li>
-				<li>Status: <%= comment.member_status %></li>
-				<li>Location: <%= comment.location %></li>
-			</ul>
+		<div class="topic">
+			<h3 class="topic_title">
+				<a href="/topics/<%= comment.topic_id %>"><%= comment.topic_title %></a>
+			</h3>
 		</div>
 		<div class="comment_wrapper">
-			<h4 class="comment_data"><%= comment.created_at %></h4>
 			<p class="comment_body">
 			<%= MARKDOWN.render(comment.body) %>
-			</p>
 		</div>
+			<p class="comment_data">
+				<%= comment.created_at %> by <%= comment.author %> from <%= comment.location %>
+			<p>	
 	</div>
-
 	<% end %>
 </div>
 

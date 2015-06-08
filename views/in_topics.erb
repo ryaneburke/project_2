@@ -22,54 +22,34 @@
 		</div>
 		
 	<% end %>
+
+	<form id="new_topic_form"="/topics" method="POST">
+		<input class="input" type="text" name="title" placeholder="New Topic...">
+		<input type="hidden" name="member_id" value="<%= currentuser_id %>">
+		<input type="hidden" name="ip" value="<%= request.ip %>">
+		<input type="submit" name="submit">
+	</form>
+	<br>
 	
 </div>
 
-<!-- <div id="aside">
-	<h4>NEW TOPIC</h4>
-	<br>
-	<h4>DISPLAY</h4>
-	<ul>
-		<li>TOP VOTED</li>
-		<li>NEWEST FIRST</li>
-		<li>OLDEST FIRST</li>
-		<li>MOST ACTIVE</li>
-	</ul>
-</div> -->
-
 <aside>
 	<div id='aside_wrap'>
-		<% if logged_in? %>
-			<p id='login_status'>
-				Logged in as: <%= currentuser_username %>
-			</p>
-			<form method="POST" action="/logout">
-      	<input type="hidden" name="_method" value="DELETE">
-      	<input type="submit" value="Logout">
-    	</form>
-		<% else %>
-			<p id='login_status'>
-				You are not logged in
-			</p>
-		<% end %> 
+		<p id='login_status'>
+			Logged in as: <%= currentuser_username %>
+		</p>
 
-		<p id='member_alert'><%= @message %></p>
+		<form id="logout" method="POST" action="/logout">
+      <input type="hidden" name="_method" value="DELETE">
+      <input type="submit" value="Logout">
+    </form>
 
-		<h2 class='cta'>Log-In</h2>
-		<form class='login_signup' action='/members/login' method='POST'>
-			<input type='text' name='username' placeholder='username'><br>
-			<input type='text' name='password' placeholder='password'><br>
-			<input type='submit' value='log-in'>
-		</form>
-
-		<h2 class='cta'>Sign-Up</h2>
-		<form class='login_signup'  action='/members' method='POST'>
-			<input type='text' name='name' placeholder='given name'><br>
-			<input type='text' name='email' placeholder='email'><br>
-			<input type='text' name='username' placeholder='desired username'><br>
-			<input type='password' name='password' placeholder='password'></br>
-			<input type='password' name='verification' placeholder='repeat password'></br>
-			<input type='submit' value='sign-up'>
+		<h2 class='cta'>Display By:</h2>
+		<form class='display_by' action='/topics/switch' method='POST'>
+			<input type='submit' name='newest' value='TOP VOTED'><br>
+			<input type='submit' name='newest' value='NEWEST FIRST'><br>
+			<input type='submit' name='oldest' value='OLDEST FIRST'><br>
+			<input type='submit' name='active' value='MOST ACTIVE'>
 		</form>
 	</div>
 <aside>

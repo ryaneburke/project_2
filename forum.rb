@@ -63,8 +63,11 @@ module Forum
 					@message = "Username already exists. Please try another."
 					erb :welcome
 				else
-					newmember = Member.add(params)
-					redirect "/members/#{newmember.id}"
+					member = Member.add(params)
+					member = Member.login(params)
+					session[:username] = member.username
+					session[:id] = member.id
+					redirect "/members/#{member.id}"
 				end
 			end
 		end
@@ -115,9 +118,9 @@ module Forum
 		get '/topics/:id' do
 			@topic = Topic.single_topic(params)
 			@comments = Comment.single_topic(params)
-			@comments.map do |comment|
-				comment.render_location
-			end
+			# @comments.map do |comment|
+			# 	comment.render_location
+			# end
 			if logged_in?
 				erb :in_topic
 			else
@@ -136,7 +139,7 @@ module Forum
 		get '/comments' do
 			@comments = Comment.all
 			@comments.map do |comment|
-				comment.render_location
+				# comment.render_location
 				comment.get_topic_title
 			end
 			if logged_in?
@@ -160,9 +163,9 @@ module Forum
 
 		#DELETE COMMENT
 		delete '/xcomment' do
-      session[:user_id] = nil
-      session[:username] = nil
-      redirect '/'
+			topic_id = params[:topic_id]
+			xcomment = Comment.delete(params)
+      redirect '/topics/#{topic_id}'
     end
 
 	end#Server

@@ -10,15 +10,9 @@
 
 <aside>
 	<div id='aside_wrap'>
-		<% if logged_in? %>
-			<p id='login_status'>
-				Logged in as: <%= currentuser_username %>
-			</p>
-		<% else %>
-			<p id='login_status'>
+		<p id='login_status'>
 				You are not logged in
-			</p>
-		<% end %> 
+		</p>
 
 		<p id='member_alert'><%= @message %></p>
 

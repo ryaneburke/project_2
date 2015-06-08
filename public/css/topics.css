@@ -3,7 +3,7 @@
 	height: 60px;
 	margin: 15px auto;
 	border: 1px solid teal;
-	box-shadow: 2px 2px 5px teal;
+	box-shadow: 2px 2px 10px grey;
 }
 
 .topic_title {
@@ -18,3 +18,44 @@
 	font-size: 12px;
 }
 
+#new_topic_form {
+	text-align: center;
+	background-color: teal;
+	padding: 10px;
+}
+
+.display_by {
+	text-align: center;
+}
+
+#new_comment_form {
+	text-align: center;
+	background-color: teal;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+
+#comment_body{
+	width: 600px;
+	height: 150px;
+}
+
+.comment {
+	width: 700px;
+	height: 170px;
+	margin: 15px auto;
+	border: 1px solid teal;
+	box-shadow: 2px 2px 5px teal;
+}
+
+.comment_wrapper {
+	width: 660px;
+	height: 120px;
+	margin: 10px auto 10px auto;
+	border: 1px solid teal;
+	box-shadow: 2px 2px 10px grey;	
+}
+
+#comment_submit:hover {
+	box-shadow: 2px 2px 5px white;
+}

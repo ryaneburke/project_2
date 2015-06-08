@@ -54,3 +54,13 @@
 	font-size: 10px;
 }
 
+#new_topic_form {
+	text-align: center;
+	background-color: teal;
+	padding: 10px;
+}
+
+.display_by {
+	text-align: center;
+}
+

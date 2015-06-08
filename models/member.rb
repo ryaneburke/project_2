@@ -22,8 +22,8 @@ class Member
 	end
 
 	def Member.add(params)
-		id = $db.exec_params("INSERT INTO members (name, username, password, email, join_date) VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP) RETURNING id", [params[:name], params[:username], params[:password], params[:email]])
-		newmember = Member.find('id', id.first['id'])
+		id = $db.exec_params("INSERT INTO members (name, username, password, email, join_date) VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP) RETURNING id", [params[:name], params[:username], params[:password], params[:email]]).first
+		newmember = Member.find(id['id'])
 	end
 
 	def Member.find(id)
